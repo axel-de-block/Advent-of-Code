@@ -9,11 +9,6 @@ with open("TextInputs\\day01.txt", "r") as open_doc:
 
 nums = []
 
-def filterFunc(i):
-    if i.isdigit():
-        return True
-    return False
-
 for line in lines:
     filteredLine = []
     for i, letter in enumerate(line):
