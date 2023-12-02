@@ -16,21 +16,18 @@ for line in lines:
     sets = [item.split(", ") for item in line[line.index(":")+2:].split("; ")]
     #print("Currently parsing:", sets)
     
-    maxRGB = [0, 0, 0]
+    maxRGB = {"red": 0, "green":0, "blue":0}
     
     for pull in sets:
         for color in pull:
-            if "red" in color and int(color[:color.index("red")]) > maxRGB[0]:
-                maxRGB[0] = int(color[:color.index("red")])
-            if "green" in color and int(color[:color.index("green")]) > maxRGB[1]:
-                maxRGB[1] = int(color[:color.index("green")])
-            if "blue" in color and int(color[:color.index("blue")]) > maxRGB[2]:
-                maxRGB[2] = int(color[:color.index("blue")])
+            amount, color = color.split()
+            maxRGB.update({color:max(maxRGB[color], int(amount))})
+
     #print("Max rgb values:", maxRGB)
         
-    powerOfGames.append(np.prod(maxRGB))
+    powerOfGames.append(np.prod(list(maxRGB.values())))
         
-    if maxRGB[0] <= 12 and maxRGB[1] <= 13 and maxRGB[2] <= 14:
+    if maxRGB["red"] <= 12 and maxRGB["green"] <= 13 and maxRGB["blue"] <= 14:
         possibleIDs.append(int(curID))
     
 print(sum(possibleIDs))
