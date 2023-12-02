@@ -1,3 +1,4 @@
+import numpy as np
 
 with open("TextInputs\\day02.txt", "r") as open_doc:
     lines = [line.replace("\n", "") for line in open_doc.readlines()]
@@ -8,6 +9,7 @@ with open("TextInputs\\testCases.txt", "r") as open_doc:
 """
 
 possibleIDs = []
+powerOfGames = []
 
 for line in lines:
     curID = line[5:line.index(":")]
@@ -26,7 +28,10 @@ for line in lines:
                 maxRGB[2] = int(color[:color.index("blue")])
     #print("Max rgb values:", maxRGB)
         
+    powerOfGames.append(np.prod(maxRGB))
+        
     if maxRGB[0] <= 12 and maxRGB[1] <= 13 and maxRGB[2] <= 14:
         possibleIDs.append(int(curID))
     
 print(sum(possibleIDs))
+print(sum(powerOfGames))
