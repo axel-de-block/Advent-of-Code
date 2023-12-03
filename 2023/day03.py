@@ -9,13 +9,15 @@ with open("TextInputs\\testCases.txt", "r") as open_doc:
     lines = [line.replace("\n", "") for line in open_doc.readlines()]
 """
 
-symbols = ['*', '$', '/', '=', '+', '@', '-', '%', '&', '#']
+symbols = ['*', '$', '/', '=', '+', '@', '-', '%', '&', '#'] #should prolly be defined experimentally on startup just in case
 
 numbers = []
-gears = {}
 sumNumbers = 0
 
-#object used to define search boundaries
+gears = {}
+gearsSum = 0
+
+#object used to define search boundaries for each number -> could be done with a dictonary if required
 class number:
     def __init__(self, num, xLeft, xRight, y) -> None:
         self.num = int(num)
@@ -37,7 +39,7 @@ for i, line in enumerate(lines):
             xLeft=x
         elif letter.isdigit():
             curNum+=letter
-            if x == len(line)-1: #required if the number ends on the last digit of a line
+            if x == len(line)-1: #required if the number ends at end of a line
                 numbers.append(number(curNum, xLeft, x+1, i))
                 curNum=""
         elif not letter.isdigit() and curNum != "":
@@ -46,8 +48,8 @@ for i, line in enumerate(lines):
 
 #iterates over lines to check vicinity using slicing (max and mins are for numbers that are on the edge of the list)    
 for num in numbers:
-    stop = False
-    slicedLines= []
+    stop = False #prep for symbol occurrence
+    slicedLines = []
     for line in lines[max(0, num.y-1):min(len(lines), num.y+2)]:
         if stop:
             break
@@ -57,7 +59,8 @@ for num in numbers:
             if sym in slicedLine:
                 sumNumbers += num.num
                 if sym == "*": #part 2
-                    gearCood = str(min(num.y-(len(slicedLines)-2), len(lines)-2)+i) + "." + str(max(0,num.xLeft-1)+slicedLine.index("*")) #find the coordinates -> turn it into a identifier -> update dict based on id
+                    #find the coordinates of * -> turn it into a identifier ('y.x') -> update dict based on id
+                    gearCood = str(min(num.y-(len(slicedLines)-2), len(lines)-2)+i) + "." + str(max(0,num.xLeft-1)+slicedLine.index("*"))
                     if gearCood in gears:
                         gears.update({gearCood:gears[gearCood]+[num.num]})
                     else:
@@ -65,9 +68,7 @@ for num in numbers:
                 stop = True
                 break
 
-#part 2   
-gearsSum = 0
-
+#part 2 summation
 for value in gears.values():
     if len(value) == 1:
         continue
