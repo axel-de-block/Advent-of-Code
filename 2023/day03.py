@@ -17,7 +17,7 @@ sumNumbers = 0
 gears = {}
 gearsSum = 0
 
-#object used to define search boundaries for each number -> could be done with a dictonary if required
+#object used to define search boundaries for each number -> can not be done with a dictionary due to duplicates
 class number:
     def __init__(self, num, xLeft, xRight, y) -> None:
         self.num = int(num)
