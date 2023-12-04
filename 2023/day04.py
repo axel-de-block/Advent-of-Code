@@ -31,9 +31,9 @@ for i, card in enumerate(cards):
     for number in winningNumbers:
         if number in potentialNumbers:
             curPoints *= 2
+            cardsQuantity[i+matchingNumbers+1] += cardsQuantity[i]
             matchingNumbers += 1
-    for j in range(matchingNumbers):
-        cardsQuantity[i+j+1] += 1*cardsQuantity[i] 
+
     points += int(floor(curPoints))
 
 print(cardsQuantity)
