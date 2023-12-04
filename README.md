@@ -1,8 +1,8 @@
-# Advent-of-Code-2023
-Collection of solutions for the 2023 Advent of Code Calendar. Language of Choice is Python 3.12
+# Advent-of-Code
+Collection of solutions for the Advent of Code Calendar. Language of Choice is Python.
 
 
-https://adventofcode.com/2023/
+https://adventofcode.com/
 
 
 Days will only show up as two files if the 2nd part requires a complete pivot/rewrite.
