@@ -30,6 +30,5 @@ for i, card in enumerate(cards):
             matchingNumbers += 1
 
     points += int(floor(curPoints))
-
-print(cardsQuantity)
+    
 print(points, sum(cardsQuantity))
