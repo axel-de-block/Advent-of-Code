@@ -45,14 +45,11 @@ for i, line in enumerate(lines[2:]):
     if "map" in line:
         beginIndex = i+3
         continue
-    if line == '':
+    if line == '' or line == lines[-1]:
         endIndex = i+2
         layer = createTranslationLayer(lines[beginIndex:endIndex])
         seeds = refactorSeeds(seeds, layer)
         operateOnSeeds(layer)
-    elif line == lines[-1]:
-        layer = createTranslationLayer(lines[beginIndex:])
-        seeds = refactorSeeds(seeds, layer)
-        operateOnSeeds(layer)
 
-print(min([i[0] for i in seeds]), (datetime.now()-startTime)/10000)
+print(min([i[0] for i in seeds]))
+print((datetime.now()-startTime)/1000)
