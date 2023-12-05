@@ -21,14 +21,14 @@ def createTranslationLayer(listOfInstructions: list, layer = None) -> dict:
     return layer
 
 #splits seed into two seeds if the content of fit into two different translation layers
-def refactorSeeds(seeds: list, layer:dict) -> list:
+def refactorSeeds(layer:dict) -> list:
+    global seeds
     for i, seed in enumerate(seeds):
         for key in layer.keys():
             if key[0]<=seed[0]<=key[1]:
                 if not key[0]<=seed[1]<=key[1]:
                     seeds[i] = [seed[0], key[1]]
                     seeds.insert(i+1, [key[1]+1,seed[1]])
-    return seeds
 
 def operateOnSeeds(layer) -> None:
     global seeds
@@ -46,10 +46,10 @@ for i, line in enumerate(lines[2:]):
         beginIndex = i+3
         continue
     if line == '' or line == lines[-1]:
-        endIndex = i+2
+        endIndex = i+2 + 1*(line == lines[-1])
         layer = createTranslationLayer(lines[beginIndex:endIndex])
-        seeds = refactorSeeds(seeds, layer)
+        refactorSeeds(layer)
         operateOnSeeds(layer)
-
-print(min([i[0] for i in seeds]))
+        
+print(f"A minumum of {min([i[0] for i in seeds])} from {seeds}.")
 print((datetime.now()-startTime)/1000)
