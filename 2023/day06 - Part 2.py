@@ -18,9 +18,7 @@ distances = lines[1][lines[1].index(":")+1:].split()
 for i in distances:
     distance += i
     
-distance = int(distance) 
-
-startTime = datetime.now()
+distance = int(distance)
 
 lowerBound = 0
 upperBound = time
