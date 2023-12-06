@@ -1,4 +1,3 @@
-
 with open("TextInputs\\day06.txt", "r") as open_doc:
     lines = [line.replace("\n", "") for line in open_doc.readlines()]
     
@@ -19,13 +18,17 @@ distances = lines[1][lines[1].index(":")+1:].split()
 for i in distances:
     distance += i
     
-distance = int(distance)
-    
-curRace = []    
-    
+distance = int(distance) 
+
+startTime = datetime.now()
+
+lowerBound = 0
+upperBound = time
+
 for buttonDuration in range(time):
-    curIteration = (time - buttonDuration)*buttonDuration
-    if curIteration > distance:
-        curRace.append(curIteration)
-        
-print(len(curRace))
+    if (time - buttonDuration)*buttonDuration > distance:
+        lowerBound = buttonDuration
+        upperBound = time-buttonDuration+1
+        break
+           
+print(len(range(lowerBound, upperBound)))
