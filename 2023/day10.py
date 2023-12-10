@@ -92,7 +92,6 @@ for y, line in enumerate(lines):
                     contourCheck = "L"
                     continue
                 if contourCheck == "F" and (getPipe([x+i, y]) == "7"):
-                    #print(f"{getPipe([x+i, y])}")
                     contourCheck = False
                     continue
                 if contourCheck == "L" and getPipe([x+i, y]) == "J":
