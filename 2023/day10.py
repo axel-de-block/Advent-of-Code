@@ -76,8 +76,6 @@ lines[mazeTrack[0][1]][mazeTrack[0][0]] = sReplacer
 
 insideCounter = 0
 
-#print(type(lines[1][9]))
-
 for y, line in enumerate(lines):
     for x, value in enumerate(line):
         boundariesCrossed = 0
@@ -86,25 +84,19 @@ for y, line in enumerate(lines):
             continue
         
         for i in range(len(line)-x):
-            #print(f"{getPipe([x, y])} @ {[x, y]} with {boundariesCrossed} crossings @ {getPipe([x+i, y])}")
-            #print(contourCheck)
             if [x+i, y] in mazeTrack and getPipe([x+i, y]) != "-":
                 if getPipe([x+i, y]) == "F":
                     contourCheck = "F"
-                    #print(f"Contour starting with {getPipe([x+i, y])} @ {[x+i, y]}")
                     continue
                 if getPipe([x+i, y]) == "L":
                     contourCheck = "L"
-                    #print(f"Contour starting with {getPipe([x+i, y])} @ {[x+i, y]}")
                     continue
                 if contourCheck == "F" and (getPipe([x+i, y]) == "7"):
                     #print(f"{getPipe([x+i, y])}")
                     contourCheck = False
-                    #print(f"Contour ending with {getPipe([x+i, y])} @ {[x+i, y]}")
                     continue
                 if contourCheck == "L" and getPipe([x+i, y]) == "J":
                     contourCheck = False
-                    #print(f"Contour ending with {getPipe([x+i, y])} @ {[x+i, y]}")
                     continue
                 contourCheck = False 
                 
@@ -112,7 +104,6 @@ for y, line in enumerate(lines):
                 
             
         if boundariesCrossed%2 != 0:
-            #print(getPipe([x, y]), [x, y])
             insideCounter += 1
 
 print(int(len(mazeTrack)/2), insideCounter)
