@@ -100,8 +100,7 @@ for y, line in enumerate(lines):
                 contourCheck = False 
                 
                 boundariesCrossed +=1
-                
-            
+                       
         if boundariesCrossed%2 != 0:
             insideCounter += 1
 
