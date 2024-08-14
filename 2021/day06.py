@@ -1,7 +1,7 @@
 import aoc_lube
 
 # using a hashmap is infinitly faster than simulating individual fish, holy smokes
-def main() -> int:
+def main() -> None:
     data = [int(i) for i in aoc_lube.fetch(2021, 6).split(",")]
     #data = [3, 4, 3, 1, 2]
     
@@ -24,7 +24,7 @@ def main() -> int:
             
         lanternfish = new_lanternfish
     
-    return sum_map(lanternfish)
+    print(sum_map(lanternfish))
        
 def generate_lanternfish_map() -> dict:
     lanternfish = {}
@@ -42,4 +42,4 @@ def sum_map(map: dict) -> int:
     return sum 
 
 if __name__ == "__main__":
-    print(main())
+    main()
