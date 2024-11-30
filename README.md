@@ -1,5 +1,8 @@
 # Advent-of-Code
-Collection of solutions for the Advent of Code Calendar. Language of Choice is Python.
+Collection of solutions for the Advent of Code Calendar.
+For previous years, I stuck with ol' reliable Python.
+
+For 2024, I will be using Java. Seems like a good choice, as its the language I've been using almost exclusively for the last 8 months at work.
 
 
 https://adventofcode.com/
