@@ -4,3 +4,4 @@
 target/
 target/classes/
 .idea/*
+/2024/src/main/resources/inputs
