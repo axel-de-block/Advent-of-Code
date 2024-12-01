@@ -50,10 +50,8 @@ public class Day01 {
     public HashMap<Integer, Integer> createMultiplierList() {
         HashMap<Integer, Integer> output = new HashMap<>();
 
-        for (int num : leftLocationIds) {
-            if (!output.containsKey(num)) {
-                output.put(num, Collections.frequency(leftLocationIds, num));
-            }
+        for (int num: leftLocationIds) {
+            output.put(num, output.getOrDefault(num, 0) + 1);
         }
 
         return output;
