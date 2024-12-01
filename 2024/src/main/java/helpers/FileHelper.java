@@ -4,20 +4,24 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileHelper {
-    public static List<String> loadInput(String day) throws IOException {
+    public static ArrayList<String> loadInput(String day) {
         ArrayList<String> input = new ArrayList<>();
         String inputPath = FileHelper.class.getResource("/inputs/day" + day + ".txt")
                 .toString().replace("file:/", "");
 
-        BufferedReader reader = new BufferedReader(new FileReader(inputPath));
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(inputPath));
 
-        while (reader.ready()) {
-            input.add(reader.readLine());
+            while (reader.ready()) {
+                input.add(reader.readLine());
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("No such file or directory");
+            return null;
         }
-        reader.close();
 
         return input;
     }
