@@ -1,11 +1,11 @@
 import lombok.Getter;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import static helpers.FileHelper.loadInput;
 
@@ -56,20 +56,6 @@ public class Day01 {
             }
         }
 
-        //System.out.println(output);
-        return output;
-    }
-
-    public ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
-        ArrayList<Integer> output = new ArrayList<>();
-
-        for (Integer integer : list) {
-            if (!output.contains(integer)) {
-                output.add(integer);
-            }
-        }
-
-        //System.out.println(output);
         return output;
     }
 
@@ -86,7 +72,7 @@ public class Day01 {
         similarity = 0;
         HashMap<Integer, Integer> multiplierList = createMultiplierList();
 
-        for (int comparator : removeDuplicates(leftLocationIds)) {
+        for (int comparator : new LinkedHashSet<>(leftLocationIds)) {
             int occurrence = 0;
 
             while (rightLocationIds.get(pointer) <= comparator && pointer <= rightLocationIds.size() - 2) {
