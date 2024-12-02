@@ -3,15 +3,10 @@ import lombok.Getter;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
-import static helpers.FileHelper.loadInput;
-
-public class Day01 {
-    ArrayList<String> input;
-
+public class Day01 extends Day {
     ArrayList<Integer> leftLocationIds = new ArrayList<>();
     ArrayList<Integer> rightLocationIds = new ArrayList<>();
 
@@ -20,8 +15,8 @@ public class Day01 {
     @Getter
     private int similarity;
 
-    public Day01(String day) {
-        input = loadInput(day);
+    public Day01() {
+        super("1");
 
         for (String line : input) {
             String leftId = line.substring(0, line.indexOf("   "));
@@ -30,15 +25,16 @@ public class Day01 {
             leftLocationIds.add(Integer.parseInt(leftId));
             rightLocationIds.add(Integer.parseInt(rightId));
         }
+
+        leftLocationIds.sort(Integer::compareTo);
+        rightLocationIds.sort(Integer::compareTo);
     }
 
     /**
      * Part 1: Not very difficult, sort both lists and just compare same index
      */
-    public int calculateTotalDistance() {
+    private int calculateTotalDistance() {
         totalDistance = 0;
-        leftLocationIds.sort(Integer::compareTo);
-        rightLocationIds.sort(Integer::compareTo);
 
         for (int i = 0; i < leftLocationIds.size(); i++) {
             totalDistance += Math.abs(leftLocationIds.get(i) - rightLocationIds.get(i));
@@ -47,7 +43,7 @@ public class Day01 {
         return totalDistance;
     }
 
-    public HashMap<Integer, Integer> createMultiplierList() {
+    private HashMap<Integer, Integer> createMultiplierList() {
         HashMap<Integer, Integer> output = new HashMap<>();
 
         for (int num: leftLocationIds) {
@@ -64,7 +60,7 @@ public class Day01 {
      * We use a single downwards moving pointer as to not have to start from index = 0 for every iteration as the loop is sorted
      * Then count all occurrences of the set number in the list
      */
-    public int calculateSimilarity() {
+    private int calculateSimilarity() {
         int pointer = 0;
 
         similarity = 0;
@@ -86,16 +82,18 @@ public class Day01 {
         return similarity;
     }
 
+    public void solve() {
+        System.out.println("Part 1: " + calculateTotalDistance());
+        System.out.println("Part 2: " + calculateSimilarity());
+    }
+
     public static void main(String[] args) {
         Instant start = Instant.now();
 
-        Day01 day01 = new Day01("1");
-
-        System.out.println("Part 1: " + day01.calculateTotalDistance());
-        System.out.println("Part 2: " + day01.calculateSimilarity());
+        Day01 day01 = new Day01();
+        day01.solve();
 
         Instant end = Instant.now();
-
         System.out.println("Execution time: " + Duration.between(start, end));
     }
 }
