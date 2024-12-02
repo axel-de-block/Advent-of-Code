@@ -7,7 +7,7 @@ public class Day02 extends Day {
     int safeRows;
 
     public Day02() {
-        super("Test");
+        super("2");
 
         for (String row : input) {
             ArrayList<Integer> dataRow = new ArrayList<>();
@@ -20,23 +20,41 @@ public class Day02 extends Day {
         }
     }
 
-    private boolean isRowSafe(ArrayList<Integer> row) {
-        for (int i = 1; i < row.size() - 2; i++) {
-            int pivot = row.get(i);
+    private boolean isRowSafe(ArrayList<Integer> row, Boolean dampened) {
+        boolean baseDirection = row.get(0) < row.get(1);
 
-            int leftOperation = pivot - row.get(i-1);
-            int rightOperation = row.get(i+1) - pivot;
+        for (int i = 0; i <= row.size() - 2; i++) {
+            int left = row.get(i);
+            int right = row.get(i + 1);
 
-            if ((Math.abs(leftOperation) > 3 || leftOperation == 0) || (Math.abs(rightOperation) > 3 || rightOperation == 0)) {
-                System.out.println(leftOperation + " | " + rightOperation);
+            if (Math.abs(left-right) > 3 || Math.abs(left-right) < 1) {
+                if (!dampened) {
+                    row.remove(i);
+                    System.out.println("Retrying with " + row);
+                    return isRowSafe(row, true);
+                }
                 return false;
             }
 
-            if (leftOperation/rightOperation < 0) {
-                System.out.println(leftOperation + " | " + rightOperation);
+            if (baseDirection != left < right) {
+                if (!dampened) {
+                    if (i == 1) {
+                        if (baseDirection != row.get(row.size() - 2) < row.get(row.size() - 1)) {
+                            row.remove(0);
+                        } else {
+                            row.remove(1);
+                        }
+                    } else {
+                        row.remove(i);
+                    }
+
+                    System.out.println("Retrying with " + row);
+                    return isRowSafe(row, true);
+                }
                 return false;
             }
         }
+
         return true;
     }
 
@@ -44,8 +62,9 @@ public class Day02 extends Day {
         safeRows = 0;
 
         for (ArrayList<Integer> row : dataRows) {
-            System.out.println(isRowSafe(row));
-            if (isRowSafe(row)) {
+            System.out.println("Verifying " + row);
+            if (isRowSafe(row, false)) {
+                System.out.println(row + " is considered safe");
                 safeRows++;
             }
         }
@@ -54,7 +73,7 @@ public class Day02 extends Day {
     }
 
     public void solve() {
-        System.out.println(countSafeRows());
+        System.out.println("Part 1: " + countSafeRows());
     }
 
     public static void main(String[] args) {
