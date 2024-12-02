@@ -3,7 +3,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 public class Day02 extends Day {
-    private ArrayList<ArrayList<Integer>> dataRows = new ArrayList<>();
+    private final ArrayList<ArrayList<Integer>> dataRows = new ArrayList<>();
     int safeRows;
 
     public Day02() {
@@ -20,6 +20,10 @@ public class Day02 extends Day {
         }
     }
 
+    private boolean outOfBounds(int left, int right) {
+        return Math.abs(left-right) > 3 || Math.abs(left-right) < 1;
+    }
+
     private boolean isRowSafe(ArrayList<Integer> row, Boolean dampened) {
         boolean baseDirection = row.get(0) < row.get(1);
 
@@ -27,30 +31,30 @@ public class Day02 extends Day {
             int left = row.get(i);
             int right = row.get(i + 1);
 
-            if (Math.abs(left-right) > 3 || Math.abs(left-right) < 1) {
-                if (!dampened) {
-                    row.remove(i);
-                    System.out.println("Retrying with " + row);
-                    return isRowSafe(row, true);
-                }
+            if (outOfBounds(left, right)) {
+//                if (!dampened) {
+//                    row.remove(i);
+//                    System.out.println("Retrying with " + row);
+//                    return isRowSafe(row, true);
+//                }
                 return false;
             }
 
             if (baseDirection != left < right) {
-                if (!dampened) {
-                    if (i == 1) {
-                        if (baseDirection != row.get(row.size() - 2) < row.get(row.size() - 1)) {
-                            row.remove(0);
-                        } else {
-                            row.remove(1);
-                        }
-                    } else {
-                        row.remove(i);
-                    }
-
-                    System.out.println("Retrying with " + row);
-                    return isRowSafe(row, true);
-                }
+//                if (!dampened) {
+//                    if (i == 1) {
+//                        if (baseDirection != row.get(row.size() - 2) < row.get(row.size() - 1)) {
+//                            row.remove(0);
+//                        } else {
+//                            row.remove(1);
+//                        }
+//                    } else {
+//                        row.remove(i);
+//                    }
+//
+//                    System.out.println("Retrying with " + row);
+//                    return isRowSafe(row, true);
+//                }
                 return false;
             }
         }
