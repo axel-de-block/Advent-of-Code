@@ -23,6 +23,9 @@ public class Dial {
         int original = position;
         position += sign * (strength % 100);
 
+        // > 100 (not >=) because landing exactly on 0 is handled by the counter++ below
+        // want to separate part 1 and 2 results for sanity checks later
+        // original != 0 prevents false positive when starting at 0 and moving left
         if ((position > 100 || position < 0) && original != 0) {
             System.out.printf("Overflow detected at position %d with strength %s from %d\n", position, amount, Math.floorMod(position - sign * (strength % 100), 100));
             overflowCounter++;
