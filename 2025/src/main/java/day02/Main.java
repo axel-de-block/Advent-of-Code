@@ -23,11 +23,11 @@ public class Main {
         System.out.println("Part 2: " + indefiniteCounter);
     }
 
-    public static long isNumberRepeated(long number) {
+    public static boolean isNumberRepeated(long number) {
         String numb = String.valueOf(number);
 
         if (numb.length() % 2 != 0) {
-            return 0;
+            return false;
         }
 
         int halfLength = numb.length() / 2;
@@ -35,26 +35,25 @@ public class Main {
         String left = numb.substring(0, halfLength);
         String right = numb.substring(halfLength);
 
-        if (left.equals(right)) {
-            return number;
-        }
-
-        return 0;
+        return left.equals(right);
     }
 
     public static void parseRange(Range range) {
         for (long i = range.low(); i <= range.high(); i++) {
-            counter += isNumberRepeated(i);
+            if (isNumberRepeated(i)) {
+                counter += i;
+            }
         }
     }
 
     public static void generateRepeatedNumbers(Range range) {
         for (long i = range.low(); i <= range.high(); i++) {
 
-            String number = String.valueOf(i);
-            if (number.length() == 1) {
+            if (i < 10) {
                 continue;
             }
+
+            String number = String.valueOf(i);
 
             // only need half the length, a pattern can't repeat if it's already longer than half the whole string
             for (int x = 1; x <= (int) Math.ceil(number.length() / 2.0); x++) {
