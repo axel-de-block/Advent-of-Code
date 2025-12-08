@@ -8,7 +8,13 @@ import java.util.List;
 
 public class Space {
     private final List<Junction> junctions;
-    private List<Circuit> circuits = new ArrayList<>();
+    private final List<Circuit> circuits = new ArrayList<>();
+
+    @Getter
+    private Long productOfLargestCircuitsAtLimit;
+
+    @Getter
+    private Long productOfCoordinatesAtFinalMerge;
 
     @Getter
     private Long productOfLargestCircuitsAtLimit;
