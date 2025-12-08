@@ -16,12 +16,6 @@ public class Space {
     @Getter
     private Long productOfCoordinatesAtFinalMerge;
 
-    @Getter
-    private Long productOfLargestCircuitsAtLimit;
-
-    @Getter
-    private Long productOfCoordinatesAtFinalMerge;
-
     public Space(List<String> input) {
         junctions = input.stream()
                 .map(Junction::new)
