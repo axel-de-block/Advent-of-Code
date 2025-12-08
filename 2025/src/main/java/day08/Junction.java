@@ -23,11 +23,11 @@ public class Junction {
     }
 
     public double calculateDistance(Junction other) {
-        int dx = this.x - other.x;
-        int dy = this.y - other.y;
-        int dz = this.z - other.z;
+        long dx = this.x - other.x;
+        long dy = this.y - other.y;
+        long dz = this.z - other.z;
 
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+        return dx * dx + dy * dy + dz * dz;
     }
 
     @Override

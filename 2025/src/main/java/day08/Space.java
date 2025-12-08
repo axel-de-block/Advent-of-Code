@@ -1,19 +1,29 @@
 package day08;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Space {
     private final List<Junction> junctions;
     private List<Circuit> circuits = new ArrayList<>();
 
+    @Getter
+    private Long productOfLargestCircuitsAtLimit;
+
+    @Getter
+    private Long productOfCoordinatesAtFinalMerge;
+
     public Space(List<String> input) {
         junctions = input.stream()
                 .map(Junction::new)
                 .toList();
+
+        for (Junction junction : junctions) {
+            circuits.add(new Circuit(junction));
+        }
     }
 
     private List<PossibleConnection> getAllPossibleConnections() {
@@ -34,62 +44,40 @@ public class Space {
     public void connectJunctions(int limit) {
         List<PossibleConnection> possibleConnections = getAllPossibleConnections();
 
-        int actualConnections = 0;
-        int skippedSameCircuit = 0;
-        int merges = 0;
-
         for (PossibleConnection possibleConnection : possibleConnections) {
-            if (limit <= 0) {
+            if (circuits.size() == 1) {
                 break;
             }
 
             Junction source = possibleConnection.source();
             Junction target = possibleConnection.target();
 
-            if (source.getCircuit() != null) {
-                // if source is already in a circuit, but target isn't
-                if (target.getCircuit() == null) {
-//                    System.out.printf("Connecting unconnected target '%s' to existing circuit %s\n", target, source.getCircuit());
-                    source.getCircuit().addJunction(target);
-                    actualConnections++;
-                // if they're already in the same circuit, nothing needs to happen
-                } else if (source.getCircuit() == target.getCircuit()) {
-//                    System.out.printf("Same circuit, skipping: '%s' and '%s'\n", source, target);
-                    skippedSameCircuit++;
-                // if source is already in a circuit, but so is target
-                } else {
-//                    System.out.printf("Merging circuit %s with another circuit %s\n", source.getCircuit(), target.getCircuit());
-                    circuits.remove(target.getCircuit());
-                    source.getCircuit().merge(target.getCircuit());
-                    merges++;
-                }
+            if (source.getCircuit() == target.getCircuit()) {
+                System.out.printf("Same circuit, skipping: '%s' and '%s'\n", source, target);
             } else {
-                // if source isn't in a circuit, but target is
-                if (target.getCircuit() != null) {
-//                    System.out.printf("Connecting unconnected target '%s' to existing circuit %s\n", source, target.getCircuit());
-                    target.getCircuit().addJunction(source);
-                    actualConnections++;
-                // if source isn't in a circuit, and neither is target
-                } else {
-//                    System.out.printf("Connecting unconnected junctions to each other '%s' -> '%s'\n", source, target);
-                    circuits.add(new Circuit(source, target));
-                    actualConnections++;
+                System.out.printf("Merging circuit %s with another circuit %s\n", source.getCircuit(), target.getCircuit());
+                circuits.remove(target.getCircuit());
+                source.getCircuit().merge(target.getCircuit());
+
+                if (circuits.size() == 1) {
+                    productOfCoordinatesAtFinalMerge = (long) source.getX() * target.getX();
                 }
             }
-
             limit--;
-        }
 
-        System.out.println("Connections processed: " + actualConnections);
-        System.out.println("Same-circuit skips: " + skippedSameCircuit);
-        System.out.println("Merges: " + merges);
-        System.out.println("Total circuits: " + circuits.size());
-        System.out.println("Total junctions in circuits: " + circuits.stream().mapToInt(Circuit::size).sum());
+            if (limit == 0) {
+                List<Circuit> largest = getLargestCircuits(3);
+                productOfLargestCircuitsAtLimit = largest.stream()
+                        .mapToLong(Circuit::size)
+                        .reduce(1L, (a, b) -> a * b);
+            }
+        }
     }
 
-    public List<Circuit> getLargestCircuits(int range) {
-        circuits.sort(Comparator.comparing(Circuit::size).reversed());
+    private List<Circuit> getLargestCircuits(int range) {
+        List<Circuit> sortedCircuits = new ArrayList<>(circuits);
+        sortedCircuits.sort(Comparator.comparing(Circuit::size).reversed());
 
-        return circuits.subList(0, Math.min(range, circuits.size()));
+        return new ArrayList<>(sortedCircuits.subList(0, Math.min(range, sortedCircuits.size())));
     }
 }
